@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Heart Rain</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      overflow:hidden;
+      background:
+        radial-gradient(circle at top, #1b1b1b 0%, #000 70%);
+      height:100vh;
+      width:100vw;
+      position:relative;
+      font-family:sans-serif;
+    }
+
+    .heart{
+      position:absolute;
+      top:-50px;
+      color:#ff4d6d;
+      user-select:none;
+      pointer-events:none;
+      animation-name:fall;
+      animation-timing-function:linear;
+      animation-iteration-count:infinite;
+      filter:drop-shadow(0 0 10px rgba(255,77,109,.6));
+      opacity:.8;
+    }
+
+    @keyframes fall{
+      0%{
+        transform:
+          translateY(-10vh)
+          translateX(0)
+          rotate(0deg);
+        opacity:0;
+      }
+
+      10%{
+        opacity:.8;
+      }
+
+      100%{
+        transform:
+          translateY(110vh)
+          translateX(80px)
+          rotate(360deg);
+        opacity:0;
+      }
+    }
+
+    .blur{
+      position:absolute;
+      inset:0;
+      backdrop-filter:blur(3px);
+    }
+
+    h1{
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      color:white;
+      font-size:60px;
+      letter-spacing:5px;
+      text-shadow:0 0 20px rgba(255,255,255,.4);
+      z-index:2;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="blur"></div>
+
+  <h1>LOVE</h1>
+
+  <script>
+    const heartCount = 50;
+
+    for(let i = 0; i < heartCount; i++){
+
+      const heart = document.createElement("div");
+
+      heart.classList.add("heart");
+
+      heart.innerHTML = "❤";
+
+      heart.style.left = Math.random() * 100 + "vw";
+
+      heart.style.fontSize =
+        (Math.random() * 25 + 10) + "px";
+
+      heart.style.animationDuration =
+        (Math.random() * 5 + 5) + "s";
+
+      heart.style.animationDelay =
+        Math.random() * 5 + "s";
+
+      heart.style.opacity =
+        Math.random();
+
+      document.body.appendChild(heart);
+    }
+  </script>
+
+</body>
+</html>
+
