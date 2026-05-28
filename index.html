@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>for my loves</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. RESET BAN ĐẦU --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            background: radial-gradient(circle at top, #1b1b1b 0%, #000 70%);
+            height: 100vh; /* Đã sửa chuẩn vh hết lệch */
+            width: 100vw;  /* Đã sửa chuẩn vw */
+            position: relative;
+            font-family: sans-serif;
+        }
+
+        /* --- 2. HIỆU ỨNG TIM BAY NỀN --- */
+        .heart {
+            position: absolute;
+            top: -50px;
+            color: #ff4d6d;
+            user-select: none;
+            pointer-events: none;
+            animation-name: fall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 77, 109, 0.6));
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(110vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .blur {
+            position: absolute;
+            inset: 0;
+            backdrop-filter: blur(3px);
+            z-index: 1;
+        }
+
+        /* --- 3. MÀN HÌNH 1: CHỮ LOVE & NÚT CLICK --- */
+        h1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 80px;
+            letter-spacing: 5px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            z-index: 2;
+        }
+
+        #screen-1 {
+            display: flex;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .btn-click {
+            background-color: #ffffff;
+            color: #800020;
+            border: none;
+            padding: 15px 40px;
+            font-size: 28px;
+            font-weight: 700;
+            border-radius: 15px;
+            cursor: pointer;
+            font-family: 'Fredoka', sans-serif;
+            box-shadow: 0 8px 0 #d9d9d9, 0 15px 20px rgba(0,0,0,0.5);
+            transition: all 0.1s ease;
+        }
+
+        .btn-click:active {
+            box-shadow: 0 2px 0 #d9d9d9, 0 5px 10px rgba(0,0,0,0.5);
+            transform: translateY(6px);
+        }
+
+        /* --- 4. MÀN HÌNH 2: Ô NHẬP USERNAME --- */
+        #screen-2 {
+            display: none;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.2);
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            width: 90%;
+            max-width: 400px;
+            z-index: 999;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #screen-2 h2 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-family: 'Nunito', sans-serif !important; /* Đã fix font tiếng Việt */
+        }
+
+        .input-user {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: 2px solid #fff;
+            background: rgba(255,255,255,0.9);
+            color: #333;
+            outline: none;
+            text-align: center;
+            margin-bottom: 15px;
+            font-family: 'Nunito', sans-serif !important; /* Đã fix font tiếng Việt */
+        }
+
+        .btn-find {
+            background-color: #fff;
+            color: #800020;
+            border: none;
+            padding: 10px 30px;
+            font-size: 20px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Fredoka', sans-serif; /* Tiếng Anh giữ font Fredoka */
+            box-shadow: 0 4px 0 #d9d9d9;
+        }
+
+        .btn-find:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #d9d9d9;
+        }
+
+        .error-msg {
+            color: #ff4d4d;
+            font-size: 14px;
+            margin-top: 12px;
+            display: none;
+            font-family: 'Nunito', sans-serif !important; /* Đã fix font tiếng Việt */
+        }
+
+        /* --- 5. MÀN HÌNH 3: HỆ THỐNG 5 THẺ BÀI GACHA --- */
+        #screen-3 {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            height: 100vh;
+            padding: 20px;
+            z-index: 999;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            width: 150px;
+            height: 230px;
+            perspective: 1000px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover:not(.locked) {
+            transform: translateY(-20px) scale(1.05);
+            z-index: 15;
+        }
+
+        .card.selected {
+            transform: translateY(-30px) scale(1.1);
+            border: 2px solid #fff;
+            border-radius: 12px;
+            box-shadow: 0 0 25px #fff;
+            z-index: 20;
+        }
+
+        .card.locked {
+            opacity: 0.2;
+            filter: grayscale(100%) blur(1px);
+            cursor: not-allowed;
+            transform: scale(0.95);
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+
+        .card-back {
+            background-color: #1a1a1a;
+            background-image: url('mat-sau-the.png');
+            background-size: cover;
+            background-position: center;
+            border: 2px solid #fff;
+        }
+
+        .card-front {
+            background-color: #fff;
+            background-size: cover;
+            background-position: center;
+            transform: rotateY(180deg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 15px;
+            color: #333;
+            font-weight: bold;
+            padding: 15px;
+            font-family: 'Nunito', sans-serif !important; /* Đã fix font tiếng Việt lời chúc mượt mà */
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .action-btn-container {
+            height: 60px;
+        }
+
+        .btn-action {
+            display: none;
+            background-color: #800020;
+            color: #fff;
+            border: none;
+            padding: 12px 35px;
+            font-size: 22px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #590016;
+            transition: all 0.2s ease;
+            font-family: 'Fredoka', sans-serif; /* Giữ font Fredoka xịn mịn */
+        }
+
+        .btn-action.state-close {
+            background-color: #ffffff !important;
+            color: #800020 !important;
+            box-shadow: 0 5px 0 #d9d9d9 !important;
+        }
+
+        .warning-text {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-family: 'Nunito', sans-serif !important; /* Đã fix font tiếng Việt dòng chữ xám mờ */
+            letter-spacing: 0.5px;
+        }
+
+        /* --- 6. CẤU HÌNH ĐÁP ỨNG DI ĐỘNG --- */
+        @media screen and (max-width: 768px) {
+            .card-container { gap: 8px; padding: 0 5px; }
+            .card { width: calc(20% - 7px); height: 110px; }
+            .btn-click { font-size: 22px; padding: 12px 30px; }
+            #screen-2 h2 { font-size: 18px; }
+            .btn-action { font-size: 18px; padding: 10px 25px; }
+            .card-front { font-size: 10px; padding: 5px; }
+            .warning-text { font-size: 11px; margin-bottom: 15px; }
+            .card:hover:not(.locked) { transform: translateY(-10px) scale(1.02); }
+            .card.selected { transform: translateY(-15px) scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="blur"></div>
+
+
+    <div id="screen-1">
+        <button class="btn-click" onclick="goToScreen2()">CLICK</button>
+    </div>
+
+    <div id="screen-2">
+        <h2>Nhập Username của mng nè:</h2>
+        <input type="text" id="username-input" class="input-user" placeholder="@username..." onkeydown="if(event.key === 'Enter') checkUsername()">
+        <button class="btn-find" onclick="checkUsername()">FIND</button>
+        <p id="error-text" class="error-msg">chưa có tên, hãy liên hệ với vanh để đc hỗ trợ nhé</p>
+    </div>
+
+    <div id="screen-3">
+        <div class="card-container">
+            <div class="card" onclick="selectCard(this, 0)">
+                <div class="card-inner">
+                    <div class="card-face card-back"></div>
+                    <div class="card-face card-front" id="text-card-0"></div>
+                </div>
+            </div>
+            <div class="card" onclick="selectCard(this, 1)">
+                <div class="card-inner">
+                    <div class="card-face card-back"></div>
+                    <div class="card-face card-front" id="text-card-1"></div>
+                </div>
+            </div>
+            <div class="card" onclick="selectCard(this, 2)">
+                <div class="card-inner">
+                    <div class="card-face card-back"></div>
+                    <div class="card-face card-front" id="text-card-2"></div>
+                </div>
+            </div>
+            <div class="card" onclick="selectCard(this, 3)">
+                <div class="card-inner">
+                    <div class="card-face card-back"></div>
+                    <div class="card-face card-front" id="text-card-3"></div>
+                </div>
+            </div>
+            <div class="card" onclick="selectCard(this, 4)">
+                <div class="card-inner">
+                    <div class="card-face card-back"></div>
+                    <div class="card-face card-front" id="text-card-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <p class="warning-text">chọn cẩn thận nha mỗi người chỉ có một cơ hội thôi đó</p>
+
+        <div class="action-btn-container">
+            <button id="action-button" class="btn-action" onclick="toggleFlip()">FLIP</button>
+        </div>
+    </div>
+
+    <script>
+        const heartCount = 50;
+        for (let i = 0; i < heartCount; i++) {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = Math.random() * 25 + 10 + "px";
+            heart.style.animationDuration = Math.random() * 5 + 5 + "s";
+            heart.style.animationDelay = Math.random() * 5 + "s";
+            heart.style.opacity = Math.random();
+            document.body.appendChild(heart);
+        }
+
+        function goToScreen2() {
+            document.getElementById('screen-1').style.display = 'none';
+            document.getElementById('screen-2').style.display = 'block';
+            document.getElementById('username-input').focus();
+        }
+
+        // --- ĐÂY RỒI! TOÀN BỘ DANH SÁCH LỜI CHÚC THẬT CỦA M ĐÃ ĐƯỢC GIỮ NGUYÊN VẸN 100% ---
+        const validUsers = {
+            'simpzzee_00': [
+                'Chúc chị simpzzee luôn vui vẻ, xinh đẹp và mãi ủng hộ tụi em nha! 🌸',
+                'Cảm ơn chị vì đã luôn là một follower siêu cấp đáng yêu của Vanh. 🍊',
+                'Chúc chị một ngày ngập tràn niềm vui, không bao giờ lo tụt mood! 🌟',
+                'Mong rằng tấm thẻ này sẽ mang lại thật nhiều may mắn cho chị hôm nay. 🍀',
+                'Gửi ngàn cái ôm ấm áp và sticker mèo ôm tim tri ân tới chị iu! 🤍'
+            ],
+            'bin_kun': [
+                'Chúc ông anh bớt dỗi vặt, dỗi nhiều mau già lắm đó nha! 😤',
+                'Chúc Bin đi học về không bị nắng rát da nữa, nhớ mặc áo chống nắng vô.',
+                'Cảm ơn ông bạn vì đã luôn lo lắng và nhắc nhở tớ mỗi ngày nè. 🙏',
+                'Chúc Bin luôn có nhiều sức khỏe để chơi game gánh tớ còng lưng!',
+                'Tấm thẻ thứ 5 này là lời cảm ơn siêu chân thành từ Vanh gửi tới Bin! 🤝'
+            ],
+            'minh_cua_vanh': [
+                'Chúc anh yêu luôn vững vàng, không bao giờ sợ hãi trước khó khăn nhé! 💪',
+                'Cảm ơn anh vì đã khẳng định tuyệt đối sẽ không bao giờ bỏ cuộc với em. 💖',
+                'Chúc Minh mai dậy sớm ra sân bay thuận buồm xuôi gió, về đến nơi nhắn em liền.',
+                'Mong rằng hai đứa mình sẽ luôn thấu hiểu, bao dung và đi cùng nhau thật xa.',
+                'Em thương anh nhiều lắm, ngủ ngon và mơ về em nha ông cụ non trầm tính! 🌙'
+            ]
+        };
+
+        let selectedCardElement = null;
+        let isFlipped = false;
+        let hasFlippedOnce = false;
+
+        function checkUsername() {
+            const inputVal = document.getElementById('username-input').value.trim().toLowerCase();
+            const errorText = document.getElementById('error-text');
+
+            if (validUsers[inputVal]) {
+                errorText.style.display = 'none';
+                
+                const wishes = [...validUsers[inputVal]];
+                wishes.sort(() => Math.random() - 0.5);
+
+                for (let i = 0; i < 5; i++) {
+                    document.getElementById(`text-card-${i}`).innerText = wishes[i];
+                }
+
+                document.getElementById('screen-2').style.display = 'none';
+                document.getElementById('screen-3').style.display = 'flex';
+            } else {
+                errorText.style.display = 'block';
+            }
+        }
+
+        function selectCard(cardElement, index) {
+            if (hasFlippedOnce) return;
+            if (isFlipped) return;
+
+            const allCards = document.querySelectorAll('.card');
+            
+            if (cardElement.classList.contains('selected')) {
+                allCards.forEach(c => c.classList.remove('selected', 'locked'));
+                selectedCardElement = null;
+                document.getElementById('action-button').style.display = 'none';
+                return;
+            }
+
+            allCards.forEach(c => {
+                c.classList.remove('selected');
+                c.classList.add('locked');
+            });
+
+            cardElement.classList.remove('locked');
+            cardElement.classList.add('selected');
+            selectedCardElement = cardElement;
+
+            const actionBtn = document.getElementById('action-button');
+            actionBtn.style.display = 'block';
+        }
+
+        function toggleFlip() {
+            if (!selectedCardElement) return;
+            const actionBtn = document.getElementById('action-button');
+
+            if (!isFlipped) {
+                selectedCardElement.classList.add('flipped');
+                isFlipped = true;
+                hasFlippedOnce = true;
+                
+                actionBtn.innerText = 'UNFLIP';
+                actionBtn.classList.add('state-close');
+            } else {
+                selectedCardElement.classList.remove('flipped');
+                isFlipped = false;
+                
+                actionBtn.innerText = 'FLIP';
+                actionBtn.classList.remove('state-close');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputElement = document.getElementById('username-input');
+            if (inputElement) {
+                inputElement.value = ''; 
+                inputElement.addEventListener('input', () => {
+                    document.getElementById('error-text').style.display = 'none';
+                });
+            }
+
+            hasFlippedOnce = false; 
+            isFlipped = false;
+            selectedCardElement = null;
+
+            document.getElementById('screen-1').style.display = 'flex';
+            document.getElementById('screen-2').style.display = 'none';
+            document.getElementById('screen-3').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
